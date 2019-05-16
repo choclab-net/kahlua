@@ -1,0 +1,15 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<section id='about'
+    {% if object.background_image %}style="background-image: url(/media/{{ object.background_image.file }});"{% endif %}
+    class='section about-section'
+>
+    <ul class="tabs">
+        <li class="tab-link current" data-tab="tab-about">About</li>
+        <li class="tab-link" data-tab="tab-skills">Skills</li>
+        <li class="tab-link" data-tab="tab-friends">Friends</li>
+    </ul>
+    {% include "home/sections/blocks/about/about.html" with object=object %}
+    {% include "home/sections/blocks/about/skills.html" with object=object %}
+    {% include "home/sections/blocks/about/friends.html" with object=object %}
+</section>

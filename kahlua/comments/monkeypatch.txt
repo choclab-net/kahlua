@@ -1,0 +1,6 @@
+Monkey patched files:
+
+/opt/python/lib/python3.7/site-packages/django/db/backends/sqlite3/base.py:_remake_table
+    https://code.djangoproject.com/ticket/24424
+
+

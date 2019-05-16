@@ -1,0 +1,22 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section id="tab-education" class='section-block timeline-block tab-content current'>
+    <div class='container-fluid'>
+        <header>
+            <h2><strong class='color'>Education</strong></h2>
+        </header>
+        <ul class='timeline'>
+            {% for education in object.education.all %}
+            <li>
+                <div class='timeline-content'>
+                    <h4>{{ education.course}}</h4>
+                    <em>
+                        <span>{{ education.qualification }}</span>
+                        <span>{{ education.date_from|date:"M d, Y" }}-{{ education.date_to|date:"M d, Y" }}</span>
+                    </em>
+                    <p>{{ education.description|richtext }}</p>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>

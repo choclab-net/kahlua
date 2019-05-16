@@ -1,0 +1,37 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section id="tab-skills" class='section-block skills-block tab-content' >
+    <div class='container-fluid' >
+        <header>
+            <h2>
+                <strong class='color' >Skills</strong>
+            </h2>
+        </header>
+        <div class='row' >
+            {% widthratio object.skills.all|length 2 1 as half %}
+            <div class='col-md-6' >
+                {% with ":"|add:half as fslice%}
+                {% for skill in object.skills.all|slice:fslice %}
+                <div class='skill' >
+                    <h4>{{ skill.skill }}</h4>
+                    <div class='bar' >
+                        <div class='percent' style='width:{{ skill.percentage }}%;' ></div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endwith %}
+            </div>
+            <div class='col-md-6' >
+                {% with half|add:":" as sslice%}
+                {% for skill in object.skills.all|slice:sslice %}
+                <div class='skill' >
+                    <h4>{{ skill.skill }}</h4>
+                    <div class='bar' >
+                        <div class='percent' style='width:{{ skill.percentage }}%;' ></div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+</section>

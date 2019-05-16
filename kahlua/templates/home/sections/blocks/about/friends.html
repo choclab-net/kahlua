@@ -1,0 +1,20 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section id="tab-friends" class='section-block friends-block portfolio-block tab-content' >
+    <div class="container-fluid">
+    <header>
+        <h2>
+            <strong class='color' >Friends</strong>
+        </h2>
+    </header>
+    <ul class='friends-items'>
+        {% for item in object.friends.all %}
+        <li>
+            {% image item.background_image max-480x240 %}
+            <div class='content'>
+                <h4>{{ item.title }}</h4>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    </div>
+</section>

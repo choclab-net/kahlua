@@ -1,0 +1,27 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section id="tab-about" class='section-block about-block tab-content current' >
+    <div class='container-fluid' >
+        <header>
+            <h2><strong class="color">{{ object.title }}</strong></h2>
+        </header>
+        <div class='row' >
+            <div class='col-md-4' >
+                <ul class='info-list' >
+                    {% for detail in object.details.all %}
+                    <li>
+                        <strong>{{ detail.key }}:</strong>
+                        <span>{{ detail.value }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class='col-md-8' >
+                <div class='about-text' >
+                    <span class="image fit">{% image object.image original %}</span>
+                    {{ object.body|richtext }}
+                </div>
+                <div class='about-btns' ></div>
+            </div>
+        </div>
+    </div>
+</section>

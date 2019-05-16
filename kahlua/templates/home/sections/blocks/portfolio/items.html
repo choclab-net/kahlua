@@ -1,0 +1,27 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<ul class='portfolio-items'>
+    {% for item in object.gallery.all %}
+    <li data-groups='["{{ item.image.tags.all|join:"\",\"" }}"]'>
+        <div class='inner'>
+            {% image item.image max-480x240 %}
+            <div class='overlay'>
+                <a href='#popup-{{ forloop.counter }}' class='view-project'>
+                    View image
+                </a>
+                <!--project popup-->
+                <div id='popup-{{ forloop.counter }}' class='popup-box zoom-anim-dialog mfp-hide'>
+                    <figure>
+                        <!--project popup image-->
+                        {% image item.image max-720x360 %}
+                    </figure>
+                    <div class='content'>
+                        <h4>{{ item.title }}</h4>
+                        {{ item.description|richtext }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+

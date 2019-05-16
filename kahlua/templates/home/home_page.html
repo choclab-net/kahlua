@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block extra_css %}
+<link rel='stylesheet' type='text/css' href="{% static 'bootstrap/css/bootstrap.min.css' %}" >
+<link rel='stylesheet' type='text/css' href="{% static 'css/linea.css' %}" >
+<link rel='stylesheet' type='text/css' href="{% static 'css/ionicons.min.css' %}" >
+<link rel='stylesheet' type='text/css' href="{% static 'css/owl.carousel.css' %}" >
+<link rel='stylesheet' type='text/css' href="{% static 'css/magnific-popup.css' %}" >
+{% endblock extra_css %}
+
+{% block content %}
+{% include "home/sections/preloader.html" %}
+<div class='main-content' >
+    <div class='page-border border-left' ></div>
+    <div class='page-border border-right' ></div>
+    <div class='page-border border-top' ></div>
+    <div class='page-border border-bottom' ></div>
+
+    {% block navbar %}
+        {% include "home/sections/menu.html" %}
+    {% endblock navbar %}
+
+    <div class='animation-block' ></div>
+    <div class='sections' >
+        {% include "home/sections/intro.html" with object=page %}
+        {% for subsection in subsections.all %}
+            {% with section=subsection.specific %}
+            {% if section.onepage_template %}
+                {% include section.onepage_template with object=section %}
+            {% endif %}
+            {% endwith %}
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/jquery.shuffle.min.js' %}"></script>
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'js/validator.min.js' %}"></script>
+<script src="{% static 'js/kahlua.js' %}"></script>
+{% endblock extra_js %}
+

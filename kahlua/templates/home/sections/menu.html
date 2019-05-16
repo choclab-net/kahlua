@@ -1,0 +1,69 @@
+{% load wagtailcore_tags wagtailimages_tags  wagtailroutablepage_tags %}
+{% load taggit_templatetags2_tags %}
+
+<!--=====================================================
+    Menu Button
+=====================================================-->
+<a href='#' class='menu-btn' >
+    <span class='lines' >
+        <span class='l1' ></span>
+        <span class='l2' ></span>
+        <span class='l3' ></span>
+    </span>
+</a>
+
+<!--=====================================================
+    Menu
+=====================================================-->
+<nav class='menu' >
+    <div class='inner' >
+        <ul class='menu-items' >
+            <li>
+                <a href="{% if blog %}/{% else %}#intro{% endif %}" class='section-toggle' data-section='intro'>
+                    Home
+                </a>
+            </li>
+            {% for item in nav_sections %}
+            {% if item.slug != 'blog' %}
+            <li>
+                <a href="#{{ item.slug }}"  class='section-toggle' data-section='{{ item.slug }}'>
+                    {{ item.title }}
+                </a>
+            </li>
+            {% endif %}
+            {% endfor %}
+            <li>
+                <a href="/blog" title='blog'>
+                    Blog
+                </a>
+            </li>
+            {%if blog %}
+            <li>
+                <div class="categories">
+                    <h4>Categories</h4>
+                    <ul>
+                        {% for category in root_categories %}
+                        <li>
+                            <a href="/blog/category/{{category.slug}}">{{category.name}}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </li>
+            <li>
+                {% get_taglist as blogtags for 'blog.BlogPage' %}
+                <div class="tagcloud">
+                    <h4>Tags</h4>
+                    <ul>
+                        {% for tag in blogtags %}
+                        <li>
+                            <a href="/blog/tag/{{ tag }}">{{ tag }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,5 @@
+== Include file from block type
+-------------------------------
+{% with template_name=section.block_type|stringformat:"s"|add:".html" %}
+    {% include "home/sections/"|add:template_name with object=section.value %}
+{% endwith %}

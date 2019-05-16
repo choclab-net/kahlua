@@ -1,0 +1,22 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section id="tab-experience" class='section-block timeline-block tab-content'>
+    <div class='container-fluid'>
+        <header>
+            <h2><strong class='color'>Experience</strong></h2>
+        </header>
+        <ul class='timeline'>
+            {% for experience in object.experience.all %}
+            <li>
+                <div class='timeline-content'>
+                    <h4>{{ experience.company }}</h4>
+                    <em>
+                        <span>{{ experience.role }}</span>
+                        <span>{{ experience.date_from|date:"M d, Y" }}-{{ experience.date_to|date:"M d, Y" }}</span>
+                    </em>
+                    <p>{{ experience.description|richtext }}</p>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>

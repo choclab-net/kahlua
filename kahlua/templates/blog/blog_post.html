@@ -1,0 +1,18 @@
+{% load wagtailcore_tags static %}
+{% if include_context == "index_page" %}
+{% include "blog/sections/header.html" with blog=blog %}
+<div class="blog-intro">
+    {{ blog.body|richtext|truncatewords_html:70 }}
+    <a href="{% pageurl blog %}">Read the rest of this entry &raquo;</a>
+</div>
+{% include "blog/sections/footer.html" with blog=blog %}
+{% else %}
+<section class="blog-post blog-body section-block blog-block tab-content current">
+    <div class="container-fluid">
+    {% include "blog/sections/header.html" with blog=blog %}
+    {{ blog.body|richtext }}
+    {% include "blog/sections/footer.html" with blog=blog %}
+    </div>
+</section>
+{% endif %}
+

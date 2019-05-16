@@ -1,0 +1,18 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section id='gallery'
+    {% if object.background_image %}style="background-image: url(/media/{{ object.background_image.file }});"{% endif %}
+    class='section portfolio-section'
+>
+    <section class='section-block portfolio-block current'>
+        <div class='container-fluid'>
+            <header>
+                <h2><strong class='color'>{{ object.title }}</strong></h2>
+            </header>
+            {% if object.description %}
+            {{ object.description|richtext }}
+            {% endif %}
+            {% include "home/sections/blocks/portfolio/menu.html" with object=object %}
+            {% include "home/sections/blocks/portfolio/items.html" with object=object %}
+        </div>
+    </section>
+</section>

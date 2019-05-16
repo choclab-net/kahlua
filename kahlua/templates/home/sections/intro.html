@@ -1,0 +1,19 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section id='intro'{% if object.background_image %}
+    style="background-image: url(/media/{{ object.background_image.file }});"{% endif %}
+    class='section section-main active'
+>
+    <div class='container-fluid main' >
+        <div class='v-align' >
+            <div class='inner' >
+                <div class='intro-text' >
+                    <h1>{{ object.title }}</h1>
+                    <p>{{ object.strapline }}</p>
+                    <div class='intro-btns' >
+                        <a href='#about' class='btn-custom section-toggle' data-section='about'>More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

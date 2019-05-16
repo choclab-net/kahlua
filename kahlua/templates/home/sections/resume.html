@@ -1,0 +1,14 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section id='resume'
+    {% if object.background_image %}style="background-image: url(/media/{{ object.background_image.file }});"{% endif %}
+    class='section resume-section'
+>
+    <ul class="tabs">
+        <li class="tab-link current" data-tab="tab-education">Education</li>
+        <li class="tab-link" data-tab="tab-experience">Experience</li>
+        <li class="tab-link" data-tab="tab-clients">Clients</li>
+    </ul>
+    {% include "home/sections/blocks/resume/education.html"  with object=object %}
+    {% include "home/sections/blocks/resume/experience.html" with object=object %}
+    {% include "home/sections/blocks/resume/clients.html"    with object=object %}
+</section>

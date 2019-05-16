@@ -1,0 +1,26 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section id="tab-clients" class='section-block testimonials-block tab-content'>
+    <div class='container-fluid'>
+        <header>
+            <h2><strong class='color'>Clients</strong></h2>
+        </header>
+        {% if object.clients.all %}
+        <div class='testimonials-slider'>
+            {% for client in object.clients.all %}
+            <div class='testimonial'>
+                <div class='icon'>
+                    <i class='ion-quote'></i>
+                </div>
+                {{ client.body|richtext }}
+                <div class='author'>
+                    <h4>{{ client.client }}</h4>
+                    <span>{{ client.role }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>No clients right now. Check back later, maybe I'll have some then.</p>
+        {% endif %}
+    </div>
+</section>

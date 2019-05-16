@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block extra_css %}
+{% endblock extra_css %}
+
+{% block content %}
+{% include "home/sections/preloader.html" %}
+<div class='main-content' >
+    {% include "home/sections/menu.html" %}
+    <div class='animation-block' ></div>
+    <div class='sections' >
+        {% include "home/sections/about.html" with object=page %}
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script src='/static/js/jquery.min.js'></script>
+<script src='/static/js/jquery.shuffle.min.js'></script>
+<script src='/static/js/owl.carousel.min.js'></script>
+<script src='/static/js/jquery.magnific-popup.min.js'></script>
+<script src='/static/js/validator.min.js'></script>
+{% endblock extra_js %}
+

@@ -1,0 +1,17 @@
+{% load wagtailcore_tags static %}
+<div class="blogtitle">
+    {% if include_context == "index_page" %}
+    <a class="blog-post-link" href="{% pageurl blog %}">
+        <h2>{{ blog.title }}</h2>
+    </a>
+    {% else %}
+    <h2>{{ blog.title }}</h2>
+    {% endif %}
+
+    {% if blog.date %}
+    <span class="meta date">
+        Posted on {{ blog.date|date:"F jS, Y" }}
+        by <a href="/blog/author/{{ blog.author }}">{{ blog.author }}</a>
+    </span>
+    {% endif %}
+</div>

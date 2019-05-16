@@ -1,0 +1,16 @@
+
+<ul class='portfolio-filters'>
+    <li>
+        <a href='#' class='active' data-group='all'>
+            All
+        </a>
+    </li>
+    {% for tag in object.get_child_tags %}
+    <li>
+        <a href='#' class='active' data-group='{{ tag }}'>
+            {{ tag }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+

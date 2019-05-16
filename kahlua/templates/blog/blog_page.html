@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block extra_css %}
+<link rel='stylesheet' type='text/css' href="{% static 'bootstrap/css/bootstrap.min.css' %}" >
+<link rel='stylesheet' type='text/css' href="{% static 'css/linea.css' %}" >
+<link rel='stylesheet' type='text/css' href="{% static 'css/ionicons.min.css' %}" >
+<link rel='stylesheet' type='text/css' href="{% static 'css/owl.carousel.css' %}" >
+<link rel='stylesheet' type='text/css' href="{% static 'css/magnific-popup.css' %}" >
+{% endblock extra_css %}
+
+{% block content %}
+{% include "home/sections/preloader.html" %}
+<div class='main-content'>
+    <div class='page-border border-left'></div>
+    <div class='page-border border-right'></div>
+    <div class='page-border border-top'></div>
+    <div class='page-border border-bottom'></div>
+
+    {% block navbar %}
+        {% include "home/sections/menu.html" with blog=True %}
+    {% endblock navbar %}
+
+    <div class="sections">
+        <section id="posts" class="section blog-section active">
+            {% include 'blog/blog_post.html' with blog=self %}
+            {% if COMMENTS_APP == 'django_comments_xtd' %}
+                {% include 'blog/blog_post_comments_xtd.html' with blog=self %}
+            {% endif %}
+        </section>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/jquery.shuffle.min.js' %}"></script>
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'js/validator.min.js' %}"></script>
+<script src="{% static 'js/kahlua.js' %}"></script>
+{% endblock extra_js %}
+
