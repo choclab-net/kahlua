@@ -13,7 +13,10 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('wagtailcore', '0041_group_collection_permissions_verbose_name_plural'),
+        (
+            'wagtailcore',
+            '0041_group_collection_permissions_verbose_name_plural'
+        ),
         ('taggit', '0002_auto_20150616_2121'),
         ('wagtailimages', '0001_squashed_0021'),
     ]
@@ -22,9 +25,28 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AboutPage',
             fields=[
-                ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
+                (
+                    'page_ptr',
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to='wagtailcore.Page'
+                    )
+                ),
                 ('body', wagtail.core.fields.RichTextField(blank=True)),
-                ('image', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.Image')),
+                (
+                    'image',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name='+',
+                        to='wagtailimages.Image'
+                    )
+                ),
             ],
             options={
                 'abstract': False,
@@ -34,11 +56,33 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AboutPageDetailsTable',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('sort_order', models.IntegerField(blank=True, editable=False, null=True)),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID'
+                    )
+                ),
+                (
+                    'sort_order',
+                    models.IntegerField(
+                        blank=True,
+                        editable=False,
+                        null=True
+                    )
+                ),
                 ('key', models.CharField(max_length=16)),
                 ('value', models.CharField(max_length=32)),
-                ('page', modelcluster.fields.ParentalKey(on_delete=django.db.models.deletion.CASCADE, related_name='details', to='home.AboutPage')),
+                (
+                    'page',
+                    modelcluster.fields.ParentalKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='details',
+                        to='home.AboutPage'
+                    )
+                ),
             ],
             options={
                 'ordering': ['sort_order'],
@@ -48,11 +92,33 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AboutPageSkillsTable',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('sort_order', models.IntegerField(blank=True, editable=False, null=True)),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID'
+                    )
+                ),
+                (
+                    'sort_order',
+                    models.IntegerField(
+                        blank=True,
+                        editable=False,
+                        null=True
+                    )
+                ),
                 ('skill', models.CharField(max_length=32)),
                 ('percentage', models.IntegerField()),
-                ('page', modelcluster.fields.ParentalKey(on_delete=django.db.models.deletion.CASCADE, related_name='skills', to='home.AboutPage')),
+                (
+                    'page',
+                    modelcluster.fields.ParentalKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='skills',
+                        to='home.AboutPage'
+                    )
+                ),
             ],
             options={
                 'ordering': ['sort_order'],
@@ -62,7 +128,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='EducationTable',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID'
+                    )
+                ),
                 ('course', models.CharField(max_length=32)),
                 ('qualification', models.CharField(max_length=32)),
                 ('date_from', models.DateField(verbose_name='Date From')),
@@ -73,7 +147,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ExperienceTable',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID'
+                    )
+                ),
                 ('company', models.CharField(max_length=32)),
                 ('role', models.CharField(max_length=32)),
                 ('date_from', models.DateField(verbose_name='Date From')),
@@ -84,7 +166,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='GalleryTable',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID'
+                    )
+                ),
                 ('title', models.CharField(max_length=32)),
                 ('description', wagtail.core.fields.RichTextField(blank=True)),
             ],
@@ -92,19 +182,42 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='HomePage',
             fields=[
-                ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
+                (
+                    'page_ptr',
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to='wagtailcore.Page'
+                    )
+                ),
                 ('pagetitle', models.CharField(blank=True, max_length=64)),
                 ('strapline', models.CharField(blank=True, max_length=128)),
             ],
             options={
                 'abstract': False,
             },
-            bases=(wagtail.contrib.routable_page.models.RoutablePageMixin, 'wagtailcore.page'),
+            bases=(
+                wagtail.contrib.routable_page.models.RoutablePageMixin,
+                'wagtailcore.page'
+            ),
         ),
         migrations.CreateModel(
             name='PortfolioPage',
             fields=[
-                ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
+                (
+                    'page_ptr',
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to='wagtailcore.Page'
+                    )
+                ),
             ],
             options={
                 'abstract': False,
@@ -114,7 +227,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ResumePage',
             fields=[
-                ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
+                (
+                    'page_ptr',
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to='wagtailcore.Page'
+                    )
+                ),
             ],
             options={
                 'abstract': False,
@@ -124,9 +247,33 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='PortfolioGalleryTable',
             fields=[
-                ('gallerytable_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='home.GalleryTable')),
-                ('sort_order', models.IntegerField(blank=True, editable=False, null=True)),
-                ('page', modelcluster.fields.ParentalKey(on_delete=django.db.models.deletion.CASCADE, related_name='gallery', to='home.PortfolioPage')),
+                (
+                    'gallerytable_ptr',
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to='home.GalleryTable'
+                    )
+                ),
+                (
+                    'sort_order',
+                    models.IntegerField(
+                        blank=True,
+                        editable=False,
+                        null=True
+                    )
+                ),
+                (
+                    'page',
+                    modelcluster.fields.ParentalKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='gallery',
+                        to='home.PortfolioPage'
+                    )
+                ),
             ],
             options={
                 'ordering': ['sort_order'],
@@ -137,9 +284,33 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ResumeEducationTable',
             fields=[
-                ('educationtable_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='home.EducationTable')),
-                ('sort_order', models.IntegerField(blank=True, editable=False, null=True)),
-                ('page', modelcluster.fields.ParentalKey(on_delete=django.db.models.deletion.CASCADE, related_name='education', to='home.ResumePage')),
+                (
+                    'educationtable_ptr',
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to='home.EducationTable'
+                    )
+                ),
+                (
+                    'sort_order',
+                    models.IntegerField(
+                        blank=True,
+                        editable=False,
+                        null=True
+                    )
+                ),
+                (
+                    'page',
+                    modelcluster.fields.ParentalKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='education',
+                        to='home.ResumePage'
+                    )
+                ),
             ],
             options={
                 'ordering': ['sort_order'],
@@ -150,9 +321,33 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ResumeExperienceTable',
             fields=[
-                ('experiencetable_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='home.ExperienceTable')),
-                ('sort_order', models.IntegerField(blank=True, editable=False, null=True)),
-                ('page', modelcluster.fields.ParentalKey(on_delete=django.db.models.deletion.CASCADE, related_name='experience', to='home.ResumePage')),
+                (
+                    'experiencetable_ptr',
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to='home.ExperienceTable'
+                    )
+                ),
+                (
+                    'sort_order',
+                    models.IntegerField(
+                        blank=True,
+                        editable=False,
+                        null=True
+                    )
+                ),
+                (
+                    'page',
+                    modelcluster.fields.ParentalKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='experience',
+                        to='home.ResumePage'
+                    )
+                ),
             ],
             options={
                 'ordering': ['sort_order'],
@@ -163,11 +358,22 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='gallerytable',
             name='image',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.Image'),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name='+',
+                to='wagtailimages.Image'
+            ),
         ),
         migrations.AddField(
             model_name='gallerytable',
             name='tags',
-            field=taggit.managers.TaggableManager(help_text='A comma-separated list of tags.', through='taggit.TaggedItem', to='taggit.Tag', verbose_name='Tags'),
+            field=taggit.managers.TaggableManager(
+                help_text='A comma-separated list of tags.',
+                through='taggit.TaggedItem',
+                to='taggit.Tag',
+                verbose_name='Tags'
+            ),
         ),
     ]

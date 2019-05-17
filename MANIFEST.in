@@ -1,0 +1,13 @@
+exclude .pylintrc
+exclude Dockerfile
+exclude Jenkinsfile
+exclude Makefile
+exclude README.md
+exclude dev-requirements.txt
+include migrate.bash
+include manage.py
+include requirements.txt
+graft home
+graft kahlua
+graft search
+prune tests

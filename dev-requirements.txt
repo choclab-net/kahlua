@@ -1,0 +1,12 @@
+check-manifest
+coverage
+flake8
+bandit
+nose
+pdoc
+pylint
+pytest
+setuptools
+testtools
+unittest2
+behave

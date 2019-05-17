@@ -1,45 +1,24 @@
+"""
+Base models for Kahlua template
+"""
 from django.db import models
 
-from wagtail.core.models import Page
-from wagtail.core.fields import StreamField
 from wagtail.admin.edit_handlers import (
-    FieldPanel, FieldRowPanel,
-    InlinePanel, MultiFieldPanel,
-    PageChooserPanel, StreamFieldPanel
+    FieldPanel,
+    InlinePanel,
+    MultiFieldPanel
 )
 
-from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.core.fields import RichTextField
+from wagtail.contrib.routable_page.models import RoutablePageMixin
+from .model.abstract import InlineImage, StaticPage
 
-from wagtail.core import blocks
-from wagtail.images.blocks import ImageChooserBlock
-
-from .model.blocks import (
-    ColumnBlock,
-    SectionBlock,
-    AboutPageDetailsTable
-)
-from wagtail.contrib.routable_page.models import RoutablePageMixin, route
-
-from django.contrib.contenttypes.models import ContentType
-from taggit.models import Tag
-
-class StaticPage(Page):
-    background_image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
-    content_panels = Page.content_panels + [
-        ImageChooserPanel('background_image'),
-    ]
-    class Meta:
-        abstract = True
 
 class ResumePage(StaticPage):
+    """
+    Model for a resume
+    """
     onepage_template = 'home/sections/resume.html'
     content_panels = StaticPage.content_panels + [
         MultiFieldPanel(
@@ -58,7 +37,11 @@ class ResumePage(StaticPage):
         ),
     ]
 
+
 class PortfolioPage(StaticPage):
+    """
+    Model for a portfolio - used as a gallery
+    """
     onepage_template = 'home/sections/portfolio.html'
     content_panels = StaticPage.content_panels + [
         MultiFieldPanel(
@@ -71,13 +54,20 @@ class PortfolioPage(StaticPage):
     ]
 
     def get_child_tags(self):
+        """
+        Gets the child tags for the current item, particularly, image tags
+        """
         tags = []
         for item in self.gallery.all():
             tags += item.image.tags.all()
         tags = sorted(set(tags))
         return tags
 
+
 class FriendsPage(StaticPage):
+    """
+    Used to provide information about a "friend"
+    """
     onepage_template = 'home/sections/portfolio.html'
     description = RichTextField(blank=True)
 
@@ -93,22 +83,22 @@ class FriendsPage(StaticPage):
     ]
 
     def get_child_tags(self):
+        """
+        Gets the child tags for the current item, particularly, image tags
+        """
         tags = []
         for item in self.gallery.all():
             tags += item.image.tags.all()
         tags = sorted(set(tags))
         return tags
 
-class AboutPage(StaticPage):
+
+class AboutPage(StaticPage, InlineImage):
+    """
+    A full about me section
+    """
     onepage_template = 'home/sections/about.html'
     friends = FriendsPage.objects.live()
-    image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
     body = RichTextField(blank=True)
 
     content_panels = StaticPage.content_panels + [
@@ -118,7 +108,11 @@ class AboutPage(StaticPage):
                 ImageChooserPanel('image'),
                 MultiFieldPanel(
                     [
-                        InlinePanel('details', label='Details', heading='Information'),
+                        InlinePanel(
+                            'details',
+                            label='Details',
+                            heading='Information'
+                        ),
                     ],
                     heading="Information",
                     classname="collapsible collapsed"
@@ -136,7 +130,11 @@ class AboutPage(StaticPage):
         ),
     ]
 
+
 class HomePage(RoutablePageMixin, StaticPage):
+    """
+    The home page of the application
+    """
     onepage_template = 'home/sections/intro.html'
     parent_page_types = [
         'wagtailcore.Page',
@@ -160,8 +158,11 @@ class HomePage(RoutablePageMixin, StaticPage):
             .public()
         )
 
-    def get_context(self, request):
-        context = super().get_context(request)
+    def get_context(self, request, *args, **kwargs):
+        """
+        Gets the current context
+        """
+        context = super().get_context(request, args, kwargs)
         context['subsections'] = self.get_subsections()
         context['nav_sections'] = self.get_subsections().in_menu()
         return context

@@ -9,7 +9,10 @@ import wagtail.core.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wagtailcore', '0041_group_collection_permissions_verbose_name_plural'),
+        (
+            'wagtailcore',
+            '0041_group_collection_permissions_verbose_name_plural'
+        ),
         ('wagtailimages', '0001_squashed_0021'),
         ('home', '0002_auto_20190514_0818'),
     ]
@@ -18,8 +21,25 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FriendsGalleryTable',
             fields=[
-                ('gallerytable_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='home.GalleryTable')),
-                ('sort_order', models.IntegerField(blank=True, editable=False, null=True)),
+                (
+                    'gallerytable_ptr',
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to='home.GalleryTable'
+                    )
+                ),
+                (
+                    'sort_order',
+                    models.IntegerField(
+                        blank=True,
+                        editable=False,
+                        null=True
+                    )
+                ),
             ],
             options={
                 'ordering': ['sort_order'],
@@ -30,9 +50,28 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FriendsPage',
             fields=[
-                ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
+                (
+                    'page_ptr',
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to='wagtailcore.Page'
+                    )
+                ),
                 ('description', wagtail.core.fields.RichTextField(blank=True)),
-                ('background_image', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.Image')),
+                (
+                    'background_image',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name='+',
+                        to='wagtailimages.Image'
+                    )
+                ),
             ],
             options={
                 'abstract': False,
@@ -42,6 +81,10 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='friendsgallerytable',
             name='page',
-            field=modelcluster.fields.ParentalKey(on_delete=django.db.models.deletion.CASCADE, related_name='gallery', to='home.FriendsPage'),
+            field=modelcluster.fields.ParentalKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='gallery',
+                to='home.FriendsPage'
+            ),
         ),
     ]
