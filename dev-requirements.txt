@@ -10,3 +10,4 @@ setuptools
 testtools
 unittest2
 behave
+django-debug-toolbar

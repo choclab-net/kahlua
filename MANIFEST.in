@@ -11,3 +11,5 @@ graft home
 graft kahlua
 graft search
 prune tests
+global-exclude __pycache__
+global-exclude *.py[co]

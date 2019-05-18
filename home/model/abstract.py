@@ -30,7 +30,14 @@ class StaticPage(Page):
     """
     Abstract base class for a page
     """
-    background_image = InlineImage.image
+    background_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
     content_panels = Page.content_panels + [
         ImageChooserPanel('background_image'),
     ]

@@ -70,5 +70,14 @@ unittest: clean
 systest: clean
 	nosetests $(NOSE_OPTS) tests/system/*
 
+integration:
+	@echo "running behavioural integration tests"
+
+smoke:
+	@echo "running smoke tests"
+
+load:
+	@echo "running load tests"
+
 coverage_report:
 	$(COVERAGE) report --rcfile=".coveragerc"

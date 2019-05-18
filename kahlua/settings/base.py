@@ -12,10 +12,39 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import json
+from collections import namedtuple
+from django.utils.crypto import get_random_string
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
+CONFIG = None
+SETTINGS_FILE = os.path.expanduser('~/etc/kahlua.json')
+
+empty_settings = {
+    "dbhost": "",
+    "dbuser": "",
+    "dbpass": "",
+    "dbname": "",
+    "secret": "{}".format(
+        get_random_string(
+            50,
+            ('abcdefghijklmnopqrstuvwxyz'
+             + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+             + '0123456789!@#$%^&*(-_=+)')
+        )
+    )
+}
+if not os.path.exists(SETTINGS_FILE):
+    print("Creating empty settings file at {}".format(SETTINGS_FILE))
+    with open(SETTINGS_FILE, 'w') as fp:
+        json.dump(empty_settings, fp, indent=4)
+
+with open(SETTINGS_FILE) as fp:
+    print("Loading settings from file:  {}".format(SETTINGS_FILE))
+    dictionary = json.load(fp)
+    CONFIG = namedtuple('Config', dictionary.keys())(**dictionary)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -92,11 +121,17 @@ WSGI_APPLICATION = 'kahlua.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'mysql.connector.django',
+        'NAME': CONFIG.dbname,
+        'USER': CONFIG.dbuser,
+        'HOST': CONFIG.dbhost,
+        'PASSWORD': CONFIG.dbpass,
+        'OPTIONS': {
+            'autocommit': True,
+            'use_pure': True,   # Required for shared hosting
+        }
     }
 }
 
@@ -141,6 +176,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+SECRET_KEY = CONFIG.secret
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
@@ -169,4 +205,7 @@ MEDIA_URL = '/media/'
 
 WAGTAIL_SITE_NAME = "kahlua"
 
+# Base URL to use when referring to full URLs within the Wagtail admin backend -
+# e.g. in notification emails. Don't include '/admin' or a trailing slash
 BASE_URL = 'http://kahlua.choclab.net'
+
