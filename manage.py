@@ -3,8 +3,10 @@ import os
 import sys
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "kahlua.settings.dev")
+    if os.path.exists('kahlua/settings/dev.py'):
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "kahlua.settings.dev")
+    else:
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "kahlua.settings.production")
 
     from django.core.management import execute_from_command_line
-
     execute_from_command_line(sys.argv)

@@ -12,8 +12,8 @@ pipeline {
 
     environment {
         projectName   = 'kahlua'
-        pythonVersion = '3.7'
-        virtualEnv   = "${env.WORKSPACE}/venv"
+        pyVersion     = '3.7'
+        virtualEnv    = "${env.WORKSPACE}/venv"
         PATH          = "${virtualEnv}/bin:${PATH}"
         deployGit     = 'choclab-git'
         deployDev     = 'choclab-dev'
@@ -103,10 +103,7 @@ pipeline {
                     echo "Installing virtualenv"
                     sh """
                     |ssh -T ${devUser}@${devServer} <<'EOF'
-                    |py_version=\$(
-                    |    python3 -c "import sys; print('{}.{}'.format(sys.version_info[0], sys.version_info[1]))"
-                    |)
-                    |python3 -m venv virtualenv/${projectName}/\${py_version}
+                    |python3 -m venv virtualenv/${projectName}/${pyVersion}
                     |EOF
                     |""".stripMargin()
 
@@ -120,10 +117,7 @@ pipeline {
                     sh """
                     |ssh -T ${devUser}@${devServer} <<'EOF'
                     |cd ${projectName}
-                    |py_version=\$(
-                    |    python3 -c "import sys; print('{}.{}'.format(sys.version_info[0], sys.version_info[1]))"
-                    |)
-                    |source ../virtualenv/${projectName}/\${py_version}/bin/activate
+                    |source ../virtualenv/${projectName}/${pyVersion}/bin/activate
                     |pip install --upgrade pip
                     |pip install --upgrade -r requirements.txt -r dev-requirements.txt
                     |EOF
@@ -133,10 +127,7 @@ pipeline {
                     sh """
                     |ssh -T ${devUser}@${devServer} <<'EOF'
                     |cd ${projectName};
-                    |py_version=\$(
-                    |    python3 -c "import sys; print('{}.{}'.format(sys.version_info[0], sys.version_info[1]))"
-                    |)
-                    |source ../virtualenv/${projectName}/\${py_version}/bin/activate
+                    |source ../virtualenv/${projectName}/${pyVersion}/bin/activate
                     |python manage.py makemigrations
                     |python manage.py migrate
                     |EOF
@@ -154,25 +145,39 @@ pipeline {
                 }
 
                 echo "Checking for new migrations"
-                sh """
-                |if [ \$(git diff | wc -l) -ne 0 ]; then
-                |    git checkout -b feature/migrations-\$(date +%Y%m%d%H%M)
-                |    git add .
-                !    git commit -m'Added automatic migration files'
-                |else
-                |    echo "No migrations to commit."
-                |fi
-                |""".stripMargin()
+                script {
+                    def changes = sh (
+                        script: """
+                            |changes=\$(git diff | wc -l)
+                            |if [ \${changes} -ne 0 ]; then
+                            |    git checkout -b feature/migrations-\$(date +%Y%m%d%H%M) origin/develop
+                            |    git add .
+                            |    git commit -m'Added automatic migration files'
+                            |    echo \${changes}
+                            |else
+                            |    echo "No migrations to commit."
+                            |    echo 0
+                            |fi
+                            |""".stripMargin(),
+                        returnStdout: true
+                    ).trim().tokenize().last()
 
-                sshagent([deployGit]) {
-                    sh """
-                    |REPO_URL=\$(git remote -v | grep -m1 '^origin' | sed -Ene's#.*(https://[^[:space:]]*).*#\\1#p')
-                    |git remote set-url origin \$(
-                    |    echo \${REPO_URL} |
-                    |        sed -Ene's#https://github.com/([^/]*)/(.*).git#git@github.com:\\1/\\2.git#p'
-                    |)
-                    |git push origin \$(git rev-parse --abbrev-ref HEAD)
-                    """.stripMargin()
+                    echo "Got ${changes} migrations to push"
+                    script {
+                        if (changes.toInteger() != 0) {
+                           sshagent([deployGit]) {
+                               sh """
+                               |REPO_URL=\$(git remote -v | grep -m1 '^origin' | sed -Ene's#.*(https://[^[:space:]]*).*#\\1#p')
+                               |git remote set-url origin \$(
+                               |    echo \${REPO_URL} |
+                               |        sed -Ene's#https://github.com/([^/]*)/(.*).git#git@github.com:\\1/\\2.git#p'
+                               |)
+                               |branch=\$(git rev-parse --abbrev-ref HEAD)
+                               |[ "\${branch}" != 'HEAD' ] && git push origin \${branch}
+                               """.stripMargin()
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -184,11 +189,11 @@ pipeline {
             }
             steps {
                 sh """
-                make integration
+                { make integration; } || true
                 """
 
                 sh """
-                make load
+                { make load; } || true
                 """
             }
         }
@@ -200,28 +205,38 @@ pipeline {
             steps {
                 sshagent (credentials: [deployProd]) {
                     sh """
-                    files="\$(grep 'include\\|graft' MANIFEST.in | awk '{ print \$NF }') passenger_wsgi.py"
-                    scp -r \$files ${prodUser}@${prodServer}:${projectName}/
-                    """
+                    |rm -f kahlua/settings/dev.py
+                    |files="\$(
+                    |    grep 'include\\|graft' MANIFEST.in | awk '{ print \$NF }'
+                    |) passenger_wsgi.py"
+                    |scp -r \$files ${prodUser}@${prodServer}:${projectName}/
+                    |""".stripMargin()
 
                     echo "Installing requirements"
                     sh """
                     |ssh -T ${prodUser}@${prodServer} <<'EOF'
                     |cd ${projectName}
-                    |py_version='3.7'
-                    |source ../virtualenv/${projectName}/\${py_version}/bin/activate
+                    |source ../virtualenv/${projectName}/${pyVersion}/bin/activate
                     |pip install --upgrade pip
-                    |pip install --upgrade -r requirements.txt -r dev-requirements.txt
+                    |pip install --upgrade -r requirements.txt
                     |EOF
                     |""".stripMargin()
 
                     echo "Migrating database"
                     sh """
                     |ssh -T ${prodUser}@${prodServer} <<'EOF'
-                    |py_version='3.7'
-                    |source ../virtualenv/${projectName}/\${py_version}/bin/activate
                     |cd ${projectName}
+                    |source ../virtualenv/${projectName}/${pyVersion}/bin/activate
                     |python manage.py migrate
+                    |EOF
+                    |""".stripMargin()
+
+                    echo "Collecting static files"
+                    sh """
+                    |ssh -T ${prodUser}@${prodServer} <<'EOF'
+                    |cd ${projectName}
+                    |source ../virtualenv/${projectName}/${pyVersion}/bin/activate
+                    |python manage.py collectstatic --noinput
                     |EOF
                     |""".stripMargin()
                 }

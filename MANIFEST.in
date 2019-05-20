@@ -7,9 +7,11 @@ exclude dev-requirements.txt
 include migrate.bash
 include manage.py
 include requirements.txt
+exclude kahlua/settings/dev.py
 graft home
 graft kahlua
 graft search
 prune tests
+prune etc
 global-exclude __pycache__
 global-exclude *.py[co]

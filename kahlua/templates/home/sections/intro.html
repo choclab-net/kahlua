@@ -1,6 +1,6 @@
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags static %}
 <section id='intro'{% if object.background_image %}
-    style="background-image: url(/media/{{ object.background_image.file }});"{% endif %}
+    style="background-image: url({% get_media_prefix %}{{ object.background_image.file }});"{% endif %}
     class='section section-main active'
 >
     <div class='container-fluid main' >

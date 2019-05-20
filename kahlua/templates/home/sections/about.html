@@ -1,7 +1,7 @@
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags static %}
 
-<section id='about'
-    {% if object.background_image %}style="background-image: url(/media/{{ object.background_image.file }});"{% endif %}
+<section id='about'{% if object.background_image %}
+    style="background-image: url({% get_media_prefix %}{{ object.background_image.file }});"{% endif %}
     class='section about-section'
 >
     <ul class="tabs">

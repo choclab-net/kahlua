@@ -1,0 +1,14 @@
+[Unit]
+Description=Development server for my website
+After=multi-user.target
+
+[Service]
+WorkingDirectory=/var/www/<HOSTNAME>/www
+ExecStart=/var/www/<HOSTNAME>/virtualenv/kahlua/3.7/bin/python manage.py runserver 127.0.0.1:8089
+Restart=on-failure
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=kahlua
+
+[Install]
+WantedBy=multi-user.target

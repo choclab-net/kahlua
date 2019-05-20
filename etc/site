@@ -1,0 +1,28 @@
+#!/bin/sh
+site=$1
+shift
+
+action=$1
+
+if [ ! -d "/var/www/$site.<DOMAIN>" ]; then
+    echo "No such permission to $action $site"
+    echo "Please consult your administrator"
+    exit 1
+fi
+
+case "$action" in
+  start)
+    systemctl start $site.service
+    ;;
+  stop)
+    systemctl stop $site.service
+    ;;
+  restart)
+    systemctl restart $site.service
+    ;;
+  *)
+    echo "No such permission to carry out $action on $site"
+    exit 1
+    ;;
+esac
+

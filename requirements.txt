@@ -1,5 +1,8 @@
 Django>=2.2,<2.3
 wagtail>=2.5,<2.6
 wagtail-blog>=2.1,<2.2
-django-taggit-templatetags2>=1.6.1,<1.7
-mysql-connector-python>=8.0.16,<8.1
+django-taggit-templatetags2>=1.6,<1.7
+mysql-connector-python>=8.0,<8.1
+whitenoise>=4.1,<4.2
+django-storages>=1.7,<1.8
+boto3>=1.9,<2.0
