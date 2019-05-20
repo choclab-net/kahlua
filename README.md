@@ -66,6 +66,20 @@ Create a new Jenkins pipeline job and link it to your git repository.
 
 This pipeline pretty much uses a vanilla install of Jenkins with community recommended plugins + HTML Publisher and ssh-agent.
 
+Once the pipeline has been installed, execute it from Jenkins either by manual build now or git hook for either master
+or develop.
+
+If deploying to shared host; you will need to restart the python application once the deployment is complete.
+
+### CPANEL
+You will need to set up a Python app in CPanel with the following settings:
+
+1. Python version: 3.7
+2. App URI: `<DOMAIN_NAME>/`
+3. WSGI File location: BLANK
+
+Save the settings and start your application.
+
 ## MySQL
 I have built this site to run with a MySQL database on shared hosting. This causes issues with MySQL connectivity from
 django which predominantly wants to use the mysqlclient library. Good luck getting this to work on a shared host...
