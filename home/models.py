@@ -12,7 +12,9 @@ from wagtail.admin.edit_handlers import (
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.core.fields import RichTextField
 from wagtail.contrib.routable_page.models import RoutablePageMixin
-from .model.blocks import (
+
+# pylint: disable=unused-import
+from .model.blocks import (  # noqa: F401
     AboutPageDetailsTable,
     AboutPageSkillsTable,
     ResumeEducationTable,
@@ -20,6 +22,7 @@ from .model.blocks import (
     PortfolioGalleryTable,
     FriendsGalleryTable
 )
+
 from .model.abstract import InlineImage, StaticPage
 
 

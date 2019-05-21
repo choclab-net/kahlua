@@ -47,7 +47,7 @@ with open(SETTINGS_FILE) as fp:
     CONFIG = namedtuple('Config', dictionary.keys())(**dictionary)
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-#STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+# STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 AWS_ACCESS_KEY_ID = CONFIG.aws_access_key
 AWS_SECRET_ACCESS_KEY = CONFIG.aws_secret_key
@@ -217,6 +217,6 @@ MEDIA_URL = 'https://{}/'.format(AWS_S3_CUSTOM_DOMAIN)
 
 WAGTAIL_SITE_NAME = "kahlua"
 
-# Base URL to use when referring to full URLs within the Wagtail admin backend -
+# Base URL to use when referring to full URLs within the Wagtail admin backend
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 BASE_URL = 'http://kahlua.choclab.net'
