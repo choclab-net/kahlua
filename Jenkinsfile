@@ -40,7 +40,7 @@ pipeline {
                 |    "report/coverage"
                 |)
                 |for d in \${directories[@]}; do
-                |    [ -d "\${d}" ] || mkdir \${d}
+                |    [ -d "\${d}" ] || mkdir -p \${d}
                 |done
                 """.stripMargin()
             }
