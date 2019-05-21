@@ -4,6 +4,7 @@ exclude Jenkinsfile
 exclude Makefile
 exclude README.md
 exclude dev-requirements.txt
+exclude passenger_wsgi.py
 include migrate.bash
 include manage.py
 include requirements.txt
@@ -13,5 +14,6 @@ graft kahlua
 graft search
 prune tests
 prune etc
+prune screenshots
 global-exclude __pycache__
 global-exclude *.py[co]
