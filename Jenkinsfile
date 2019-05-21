@@ -33,15 +33,21 @@ pipeline {
                     |pip install --upgrade pip
                     |pip install -r requirements.txt -r dev-requirements.txt
                 |""".stripMargin()
+
+                sh """
+                |directories=(
+                |    "report"
+                |    "report/coverage"
+                |)
+                |for d in \${directories[@]}; do
+                |    [ -d "\${d}" ] || mkdir \${d}
+                |done
+                """.stripMargin()
             }
         }
 
         stage ('Check_style') {
             steps {
-                sh """
-                    [ -d report ] || mkdir report
-                """
-
                 sh """
                     source ${virtualEnv}/bin/activate
                     make check || true
