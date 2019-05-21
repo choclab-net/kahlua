@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 CONFIG = None
 SETTINGS_FILE = os.path.expanduser('~/etc/kahlua.json')
 
-empty_settings = {
+empty_settings = {  # pylint: disable=invalid-name
     "dbhost": "",
     "dbuser": "",
     "dbpass": "",
@@ -43,7 +43,7 @@ if not os.path.exists(SETTINGS_FILE):
 
 with open(SETTINGS_FILE) as fp:
     print("Loading settings from file:  {}".format(SETTINGS_FILE))
-    dictionary = json.load(fp)
+    dictionary = json.load(fp)  # pylint: disable=invalid-name
     CONFIG = namedtuple('Config', dictionary.keys())(**dictionary)
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
