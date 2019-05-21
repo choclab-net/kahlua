@@ -64,7 +64,7 @@ sdist: clean
 
 tests: unittest systest coverage_report
 
-unittest: clean
+unittest:
 	nosetests $(NOSE_OPTS) tests/unit/*
 
 systest: clean
