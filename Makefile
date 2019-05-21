@@ -21,7 +21,7 @@
 
 PYTHON=python
 COVERAGE=coverage
-NOSE_OPTS = --with-coverage --cover-package=$(NAME)
+NOSE_OPTS = -s --with-coverage --cover-package=home --cover-package=kahlua --cover-package=search --cover-branches --cover-html
 SITELIB = $(shell $(PYTHON) -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")
 VERSION = $(shell $(PYTHON) setup.py --version)
 PACKAGES = home kahlua search
